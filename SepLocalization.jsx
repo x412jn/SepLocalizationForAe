@@ -12,6 +12,21 @@
 
 (function SepLocalization (thisObj)
 {
+	//PROJECT PANEL ITEMS
+
+	var proj = app.project;
+
+	var NAME_TextControll = "IGG_UA_TextController";
+	var NAME_LocalizationLayer="IGG_UA_Localization";
+	var NAME_Folder="IGG_UA_MasterFolder";
+
+	var currentTextControllerComp;
+	var currentLocalizationLayer;
+	var currentMasterFolder;
+
+	//COMP ITEMS
+
+
 	//BUILD UI
 	function buildUI(thisObj)
 	{
@@ -82,30 +97,82 @@
 
 	function CreateTextController()
 	{
+		if(GetTextController())
+		{
+			alert("Text Controller Already Exist");
+			return;
+		}
+		currentMasterFolder = proj.items.addFolder(NAME_Folder);
+		currentTextControllerComp = proj.items.addComp(NAME_TextControll,1920,1080,1,10,30);
+		currentTextControllerComp.parentFolder = currentMasterFolder;
 
 	}
 
 	function CreateNewText()
 	{
-
+		if(!GetTextController())
+		{
+			alert("Text Controller Not Exist");
+			return;
+		}
 	}
 
 	function LinkCurrentText()
 	{
-
+		if(!GetTextController())
+		{
+			alert("Text Controller Not Exist");
+			return;
+		}
 	}
 
 	function SearchTextLayer()
 	{
-
+		if(!GetTextController())
+		{
+			alert("Text Controller Not Exist");
+			return;
+		}
 	}
 
 	//UTILITIES
 
+
 	function GetTextController()
 	{
-		
+		//遍历整个item，如果某个item的名字是“IGG_UA_TextController”,则返回false并return
+		var projLength = proj.items.length;
+		var tempLayerCheck;
+
+		for(var i = 1; i<=projLength;i++)
+		{
+			if(proj.item(i).name.toString()==NAME_TextControll)
+			{
+				//currentTextController = proj.item(i);
+				tempCompCheck = proj.item(i);
+				if(GetLocalizationLayer(i))
+				{
+					currentTextControllerComp=proj.item(i);
+					return true
+				}
+			}
+		}
+		currentTextController = null;
+		return false;
 	}
 
+	function GetLocalizationLayer(inquire)
+	{
+		var inquireComp = proj.item(inquire);
+		for(var j=1;j<=inquireComp.layers.length;j++)
+		{
+			if(inquireComp.layer(j).name == NAME_LocalizationLayer)
+			{
+				currentLocalizationLayer=inquireComp.layer(j);
+				return true;
+			}
+		}
+		return false;
+	}
 
 })(this);
