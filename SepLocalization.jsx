@@ -26,6 +26,9 @@
 
 	//COMP ITEMS
 
+	var PROPERTY_NAME_DropdownMenu = "Localization";
+	var PROPERTY_DropdownMenu;
+
 
 	//BUILD UI
 	function buildUI(thisObj)
@@ -106,6 +109,8 @@
 		currentTextControllerComp = proj.items.addComp(NAME_TextControll,1920,1080,1,10,30);
 		currentTextControllerComp.parentFolder = currentMasterFolder;
 
+		currentLocalizationLayer = currentTextControllerComp.layers.addNull();
+		currentLocalizationLayer.name = NAME_LocalizationLayer;
 	}
 
 	function CreateNewText()
